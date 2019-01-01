@@ -1,32 +1,68 @@
-.App {
+body {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 300;
+  color: #444;
+  background-color: ghostwhite;
+}
+
+.pop {
+  font-weight: 400;
+  color: #000;
+}
+
+.app__header h1 {
+  font-family: 'Racing Sans One', cursive;
+  font-size: 1.65em;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app__days {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.day {
+  display: flex;
+  margin-bottom: 2em;
+  background-color: white;
+}
+
+.day__header {
+  font-size: 1em;
   color: white;
+  background-color: #444;
+  padding: 0.5em;
+  margin: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.day__day {
+  font-size: 1.6em;
+  font-weight: 400;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.day__date {
+  font-weight: 300;
+}
+
+.forecast {
+  margin-left: 0.5em;
+  padding: 0.5em;
+}
+
+.forecast__highlights {
+  display: flex;
+  align-items: center;
+}
+
+.forecast__icon {
+  height: 2em;
+}
+
+.forecast__summary {
+  text-transform: lowercase;
+}
+
+.forecast__temperature {
+  font-size: 2em;
 }
