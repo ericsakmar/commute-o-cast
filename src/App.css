@@ -10,6 +10,19 @@ body {
   color: #000;
 }
 
+.app {
+  text-align: center;
+}
+
+.app__loading-icon {
+  font-size: 3em;
+}
+
+.app__error {
+  font-weight: 400;
+  color: crimson;
+}
+
 .app__header h1 {
   font-family: 'Racing Sans One', cursive;
   font-size: 1.65em;
@@ -17,15 +30,16 @@ body {
 }
 
 .app__days {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .day {
   display: flex;
   margin-bottom: 2em;
   background-color: white;
+  flex-grow: 1;
+  text-align: left;
 }
 
 .day__header {
@@ -38,7 +52,7 @@ body {
 }
 
 .day__day {
-  font-size: 1.6em;
+  font-size: 1.65em;
   font-weight: 400;
 }
 
