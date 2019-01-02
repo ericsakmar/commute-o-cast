@@ -22,8 +22,6 @@ class App extends Component {
       return <div>loading</div>;
     }
 
-    const today = new Date();
-
     return (
       <div className="app">
         <header className="app__header">
@@ -31,12 +29,28 @@ class App extends Component {
         </header>
 
         <div className="app__days">
-          <Day date={today} forecast={forecast[0]} />
-          <Day date={today} forecast={forecast[1]} />
-          <Day date={today} forecast={forecast[2]} />
+          {this.renderDay(forecast[0])}
+          {this.renderDay(forecast[1])}
+          {this.renderDay(forecast[2])}
         </div>
       </div>
     );
+  }
+
+  renderDay(forecast) {
+    if (!forecast.am && !forecast.pm) {
+      return null;
+    }
+
+    if (forecast.am) {
+      return (
+        <Day date={new Date(forecast.am.time * 1000)} forecast={forecast} />
+      );
+    } else {
+      return (
+        <Day date={new Date(forecast.pm.time * 1000)} forecast={forecast} />
+      );
+    }
   }
 }
 

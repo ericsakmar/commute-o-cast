@@ -10,7 +10,7 @@ export default class Day extends Component {
       <div className="day">
         <h2 className="day__header">
           <div className="day__day">{format(date, 'ddd')}</div>
-          <div className="day__date">{format(date, 'MMM d')}</div>
+          <div className="day__date">{format(date, 'MMM D')}</div>
         </h2>
         <Forecast forecast={forecast.am} />
         <Forecast forecast={forecast.pm} />

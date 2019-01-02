@@ -8,23 +8,24 @@ exports.handler = async (event, context) => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
-  const day = today.getDate();
+
+  let day = today.getDate();
+  if (today.getHours() > 17) {
+    day++;
+  }
 
   const hourly = await getForecast(lat, lon);
   const {data} = hourly;
   const forecast = [
     {
-      one: 'one',
       am: data.find(f => f.time === getTime(year, month, day, 8)),
       pm: data.find(f => f.time === getTime(year, month, day, 17)),
     },
     {
-      two: 'two',
       am: data.find(f => f.time === getTime(year, month, day + 1, 8)),
       pm: data.find(f => f.time === getTime(year, month, day + 1, 17)),
     },
     {
-      three: 'three',
       am: data.find(f => f.time === getTime(year, month, day + 2, 8)),
       pm: data.find(f => f.time === getTime(year, month, day + 2, 17)),
     },
