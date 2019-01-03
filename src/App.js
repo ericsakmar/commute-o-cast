@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {Settings as SettingsIcon} from 'react-feather';
 
 import Day from './Day';
+import Settings from './Settings';
 import './App.css';
 
 class App extends Component {
@@ -8,6 +10,11 @@ class App extends Component {
     super(props);
     this.state = {
       loading: false,
+      showSettings: false,
+      settings: {
+        am: 7,
+        pm: 17,
+      },
     };
   }
 
@@ -15,9 +22,10 @@ class App extends Component {
     this.setState({loading: true});
 
     try {
-      // TODO get users location
-      // TODO reduce precision to make caching better
-      const res = await fetch('/forecast?lat=40.44&lon=-79.99');
+      const location = await this.getLocation();
+      const res = await fetch(
+        `/forecast?lat=${location.lat}&lon=${location.lon}&am=7&pm=17`,
+      );
       const forecast = await res.json();
       this.setState({forecast, loading: false, error: null});
     } catch (error) {
@@ -35,6 +43,38 @@ class App extends Component {
         {this.renderError()}
         {this.renderDays()}
       </div>
+    );
+  }
+
+  renderToolbar() {
+    return (
+      <div className="app__toolbar">
+        <button
+          className="app__toolbar-button"
+          onClick={() =>
+            this.setState({showSettings: !this.state.showSettings})
+          }>
+          <SettingsIcon size="1.25em" />
+        </button>
+      </div>
+    );
+  }
+
+  renderSettings() {
+    const {showSettings, settings} = this.state;
+
+    if (!showSettings) {
+      return null;
+    }
+
+    return (
+      <Settings
+        settings={settings}
+        onChange={changes => {
+          const nextSettings = {...settings, ...changes};
+          this.setState({settings: nextSettings});
+        }}
+      />
     );
   }
 
@@ -68,13 +108,9 @@ class App extends Component {
     if (!forecast) {
       return null;
     }
-    return (
-      <div className="app__days">
-        {this.renderDay(forecast[0])}
-        {this.renderDay(forecast[1])}
-        {this.renderDay(forecast[2])}
-      </div>
-    );
+    console.log(forecast)
+    const days = forecast.map(f => this.renderDay(f));
+    return <div className="app__days">{days}</div>;
   }
   renderDay(forecast) {
     if (!forecast.am && !forecast.pm) {
@@ -89,6 +125,22 @@ class App extends Component {
         <Day date={new Date(forecast.pm.time * 1000)} forecast={forecast} />
       );
     }
+  }
+  getLocation() {
+    return new Promise((resolve, reject) => {
+      if (!('geolocation' in navigator)) {
+        reject('Location not available.');
+      }
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          resolve({
+            lat: position.coords.latitude.toFixed(1),
+            lon: position.coords.longitude.toFixed(1),
+          });
+        },
+        error => reject(error),
+      );
+    });
   }
 }
 export default App;

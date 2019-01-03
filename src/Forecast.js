@@ -1,21 +1,9 @@
 import React, {Component} from 'react';
 import format from 'date-fns/format';
 // const Skycons = require('skycons')(window);
+import {Cloud, CloudRain, CloudSnow, Sun, Wind} from 'react-feather';
 
 export default class Forecast extends Component {
-  constructor(props) {
-    super(props);
-    this.iconRef = React.createRef();
-  }
-
-  // componentDidMount() {
-  //   const {forecast} = this.props;
-  //   if (forecast) {
-  //     const skycons = Skycons({color: 'black'});
-  //     skycons.add(this.iconRef.current, forecast.icon);
-  //   }
-  // }
-
   render() {
     const {forecast} = this.props;
 
@@ -31,9 +19,7 @@ export default class Forecast extends Component {
           <div className="forecast__temperature pop">
             {Math.round(forecast.temperature)}&deg;
           </div>
-          <div className="forecast__icon">
-            <canvas width="100%" height="100%" ref={this.iconRef} />
-          </div>
+          <div className="forecast__icon">{this.renderIcon()}</div>
         </div>
 
         <div className="forecast__text">
@@ -44,6 +30,39 @@ export default class Forecast extends Component {
         </div>
       </div>
     );
+  }
+
+  renderIcon() {
+    const {icon} = this.props.forecast;
+
+    if (!icon) {
+      return null;
+    }
+
+    switch (icon) {
+      case 'cloudy':
+      case 'partly-cloudy-day':
+      case 'partly-cloudy-night':
+      case 'fog':
+        return <Cloud size="2em" />;
+
+      case 'clear-day':
+      case 'clear-night':
+        return <Sun />;
+
+      case 'rain':
+        return <CloudRain />;
+
+      case 'snow':
+      case 'sleet':
+        return <CloudSnow />;
+
+      case 'wind':
+        return <Wind />;
+
+      default:
+        return null;
+    }
   }
 }
 

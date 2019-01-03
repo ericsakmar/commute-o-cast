@@ -1,8 +1,18 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 body {
   font-family: 'Rubik', sans-serif;
   font-weight: 300;
-  color: #444;
-  background-color: ghostwhite;
+  color: #313133;
+  background-color: #c6c6cf;
+  padding: 0.5em;
 }
 
 .pop {
@@ -12,6 +22,8 @@ body {
 
 .app {
   text-align: center;
+  max-width: 25em;
+  margin: 0 auto;
 }
 
 .app__loading-icon {
@@ -23,46 +35,97 @@ body {
   color: crimson;
 }
 
+.app__header {
+  position: relative;
+}
+
 .app__header h1 {
   font-family: 'Racing Sans One', cursive;
   font-size: 1.65em;
   text-align: center;
 }
 
+.app__toolbar {
+  position: absolute;
+  top: 0.5em;
+  right: 0;
+}
+
+.app__toolbar-button {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  color: #777;
+  background-color: transparent;
+  font-size: inherit;
+}
+
 .app__days {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
 }
 
-.day {
-  display: flex;
+.settings {
   margin-bottom: 2em;
+}
+
+.action {
+  font-family: inherit;
+  font-size: 0.75em;
+  background-color: dodgerblue;
+  color: #fff;
+  border: 0;
+  border-radius: 0.2em;
+  font-weight: 700;
+}
+
+.settings__form {
+  display: flex;
+  justify-content: center;
+}
+
+.settings__field {
+  margin-right: 1em;
+}
+
+.settings label {
+  margin-right: 0.5em;
+}
+
+.settings select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.day {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
   background-color: white;
-  flex-grow: 1;
   text-align: left;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .day__header {
   font-size: 1em;
-  color: white;
-  background-color: #444;
+  /* color: white; */
+  /* background-color: #313133; */
   padding: 0.5em;
   margin: 0;
-  text-align: center;
-}
-
-.day__day {
-  font-size: 1.65em;
-  font-weight: 400;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  display: flex;
 }
 
 .day__date {
   font-weight: 300;
+  margin-left: 0.5em;
 }
 
 .forecast {
-  margin-left: 0.5em;
   padding: 0.5em;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .forecast__highlights {
@@ -71,7 +134,8 @@ body {
 }
 
 .forecast__icon {
-  height: 2em;
+  margin-left: 1em;
+  color: dodgerblue;
 }
 
 .forecast__summary {
@@ -80,4 +144,19 @@ body {
 
 .forecast__temperature {
   font-size: 2em;
+}
+
+@media all and (min-width: 25em) {
+  .day {
+    grid-template-columns: 4em 1fr 1fr;
+  }
+
+  .day__header {
+    flex-direction: column;
+    grid-column-end: 1;
+  }
+
+  .day__date {
+    margin-left: 0;
+  }
 }

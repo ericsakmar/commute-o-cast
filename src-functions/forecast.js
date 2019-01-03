@@ -1,49 +1,56 @@
 import fetch from 'node-fetch';
+import{ addDays, getDay, setHours} from 'date-fns';
 
 const key = process.env.DARKSKY_KEY;
 
 exports.handler = async (event, context) => {
-  const {lat, lon} = event.queryStringParameters;
+  const {am, lat, lon, pm} = event.queryStringParameters;
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth();
+  let date = new Date();
+  date.setMilliseconds(0);
+  date.setSeconds(0);
+  date.setMinutes(0);
 
-  let day = today.getDate();
-  if (today.getHours() > 17) {
-    day++;
+  if (date.getHours() > pm) {
+    date = addDays(date, 1);
   }
 
-  const hourly = await getForecast(lat, lon);
-  const {data} = hourly;
-  const forecast = [
-    {
-      am: data.find(f => f.time === getTime(year, month, day, 8)),
-      pm: data.find(f => f.time === getTime(year, month, day, 17)),
-    },
-    {
-      am: data.find(f => f.time === getTime(year, month, day + 1, 8)),
-      pm: data.find(f => f.time === getTime(year, month, day + 1, 17)),
-    },
-    {
-      am: data.find(f => f.time === getTime(year, month, day + 2, 8)),
-      pm: data.find(f => f.time === getTime(year, month, day + 2, 17)),
-    },
-  ];
+  let forecast = [];
+
+  while (forecast.length < 5) {
+    const day = await getForecast(
+      lat,
+      lon,
+      toTime(setHours(date, am)),
+      toTime(setHours(date, pm)),
+    );
+
+    forecast.push(day);
+
+    date = addDays(date, 1);
+    if (getDay(date) === 0) {
+      date = addDays(date, 1);
+    }
+    else if (getDay(date) === 6) {
+      date = addDays(date, 2);
+    }
+  }
 
   return {statusCode: 200, body: JSON.stringify(forecast)};
 };
 
-function getTime(year, month, day, hours) {
-  const date = new Date(year, month, day, hours, 0, 0, 0);
-  const time = date.getTime() / 1000;
-  return time;
+function toTime(date) {
+  return date.getTime() / 1000;
 }
 
-async function getForecast(lat, lon) {
+async function getForecast(lat, lon, am, pm) {
   const res = await fetch(
-    `https://api.darksky.net/forecast/${key}/${lat},${lon}`,
+    `https://api.darksky.net/forecast/${key}/${lat},${lon},${am}`,
   );
   const json = await res.json();
-  return json.hourly;
+  const {data} = json.hourly;
+  return {
+    am: data.find(f => f.time === am),
+    pm: data.find(f => f.time === pm),
+  };
 }
