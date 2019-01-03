@@ -24,7 +24,7 @@ class App extends Component {
     try {
       const location = await this.getLocation();
       const res = await fetch(
-        `/forecast?lat=${location.lat}&lon=${location.lon}&am=7&pm=17`,
+        `/.netlify/functions/forecast?lat=${location.lat}&lon=${location.lon}&am=7&pm=17`,
       );
       const forecast = await res.json();
       this.setState({forecast, loading: false, error: null});
