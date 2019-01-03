@@ -21,7 +21,7 @@ class App extends Component {
   async componentDidMount() {
     this.setState({loading: true});
 
-    const timeZoneOffset = new Date().getTimeZoneOffset() / 60;
+    const timeZoneOffset = new Date().getTimezoneOffset() / 60;
     const am = 7 + timeZoneOffset;
     const pm = 17 + timeZoneOffset;
 
