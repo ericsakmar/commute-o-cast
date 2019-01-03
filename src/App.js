@@ -21,10 +21,14 @@ class App extends Component {
   async componentDidMount() {
     this.setState({loading: true});
 
+    const timeZoneOffset = new Date().getTimeZoneOffset() / 60;
+    const am = 7 + timeZoneOffset;
+    const pm = 17 + timeZoneOffset;
+
     try {
       const location = await this.getLocation();
       const res = await fetch(
-        `/.netlify/functions/forecast?lat=${location.lat}&lon=${location.lon}&am=7&pm=17`,
+        `/.netlify/functions/forecast?lat=${location.lat}&lon=${location.lon}&am=${am}&pm=${pm}`,
       );
       const forecast = await res.json();
       this.setState({forecast, loading: false, error: null});
