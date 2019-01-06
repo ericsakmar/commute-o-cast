@@ -36,7 +36,11 @@ exports.handler = async (event, context) => {
     date = addDays(date, 1);
   }
 
-  return {statusCode: 200, body: JSON.stringify(forecast)};
+  return {
+    statusCode: 200,
+    body: JSON.stringify(forecast),
+    headers: {'Cache-Control': 'max-age=1800'},
+  };
 };
 
 function toTime(date) {
