@@ -29,7 +29,6 @@ class App extends Component {
       const location = await this.getLocation();
       const baseUrl = process.env.NODE_ENV === 'production' ? '/.netlify/functions' : '';
       const res = await fetch(
-        // `/.netlify/functions/forecast?lat=${location.lat}&lon=${location.lon}&am=${am}&pm=${pm}`,
         `${baseUrl}/forecast?lat=${location.lat}&lon=${location.lon}&am=${am}&pm=${pm}`,
       );
       const forecast = await res.json();
