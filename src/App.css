@@ -1,6 +1,10 @@
+:root {
+  --dark-gray: #313133;
+}
 html {
   box-sizing: border-box;
 }
+
 *,
 *:before,
 *:after {
@@ -10,20 +14,21 @@ html {
 body {
   font-family: 'Rubik', sans-serif;
   font-weight: 300;
-  color: #313133;
-  background-color: #c6c6cf;
+  color: var(--dark-gray);
   padding: 0.5em;
 }
 
 .pop {
   font-weight: 400;
-  color: #000;
 }
 
 .app {
-  text-align: center;
   max-width: 25em;
   margin: 0 auto;
+}
+
+.app__loading {
+  text-align: center;
 }
 
 .app__loading-icon {
@@ -100,21 +105,20 @@ body {
 .day {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin-bottom: 1em;
-  background-color: white;
-  text-align: left;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin-bottom: 3em;
 }
 
 .day__header {
   font-size: 1em;
-  /* color: white; */
-  /* background-color: #313133; */
-  padding: 0.5em;
-  margin: 0;
+  margin: 0 0.5em;
   grid-column-start: 1;
   grid-column-end: 3;
   display: flex;
+  border-bottom: 1px solid silver;
+}
+
+.day__day {
+  color: dodgerblue;
 }
 
 .day__date {
@@ -124,39 +128,20 @@ body {
 
 .forecast {
   padding: 0.5em;
-  flex-grow: 1;
-  flex-shrink: 0;
 }
 
 .forecast__highlights {
   display: flex;
   align-items: center;
+  font-size: 3em;
 }
 
 .forecast__icon {
-  margin-left: 1em;
+  margin-left: 0.5em;
   color: dodgerblue;
+  font-size: 0.5em;
 }
 
 .forecast__summary {
   text-transform: lowercase;
-}
-
-.forecast__temperature {
-  font-size: 2em;
-}
-
-@media all and (min-width: 25em) {
-  .day {
-    grid-template-columns: 4em 1fr 1fr;
-  }
-
-  .day__header {
-    flex-direction: column;
-    grid-column-end: 1;
-  }
-
-  .day__date {
-    margin-left: 0;
-  }
 }

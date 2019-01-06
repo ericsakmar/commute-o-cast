@@ -28,12 +28,13 @@ class App extends Component {
     try {
       const location = await this.getLocation();
       const res = await fetch(
-        `/.netlify/functions/forecast?lat=${location.lat}&lon=${location.lon}&am=${am}&pm=${pm}`,
+        // `/.netlify/functions/forecast?lat=${location.lat}&lon=${location.lon}&am=${am}&pm=${pm}`,
+        `/forecast?lat=${location.lat}&lon=${location.lon}&am=${am}&pm=${pm}`,
       );
       const forecast = await res.json();
       this.setState({forecast, loading: false, error: null});
     } catch (error) {
-      this.setState({error, loading: false});
+      this.setState({error: error.toString(), loading: false});
     }
   }
 
@@ -112,7 +113,6 @@ class App extends Component {
     if (!forecast) {
       return null;
     }
-    console.log(forecast)
     const days = forecast.map(f => this.renderDay(f));
     return <div className="app__days">{days}</div>;
   }
@@ -122,11 +122,19 @@ class App extends Component {
     }
     if (forecast.am) {
       return (
-        <Day date={new Date(forecast.am.time * 1000)} forecast={forecast} />
+        <Day
+          date={new Date(forecast.am.time * 1000)}
+          forecast={forecast}
+          key={forecast.am.time}
+        />
       );
     } else {
       return (
-        <Day date={new Date(forecast.pm.time * 1000)} forecast={forecast} />
+        <Day
+          date={new Date(forecast.pm.time * 1000)}
+          forecast={forecast}
+          key={forecast.pm.time}
+        />
       );
     }
   }

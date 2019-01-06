@@ -27,6 +27,7 @@ export default class Forecast extends Component {
           {renderFeelsLike(forecast.temperature, forecast.apparentTemperature)}
           {renderPrecipitation(forecast.precipProbability, forecast.precipType)}
           {renderWind(forecast.windSpeed)}
+          {renderHumidity(forecast.humidity)}
         </div>
       </div>
     );
@@ -107,6 +108,15 @@ function renderWind(windSpeed) {
   return (
     <div className="forecast__wind">
       winds at <span className="pop">{formatted} mph</span>
+    </div>
+  );
+}
+
+function renderHumidity(humidity) {
+  const formatted = Math.round(humidity * 100);
+  return (
+    <div className="forecast__wind">
+      <span className="pop">{formatted}%</span> humidity
     </div>
   );
 }

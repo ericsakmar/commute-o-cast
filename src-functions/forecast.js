@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import{ addDays, getDay, setHours} from 'date-fns';
+import {addDays, getDay, setHours} from 'date-fns';
 
 const key = process.env.DARKSKY_KEY;
 
@@ -18,6 +18,12 @@ exports.handler = async (event, context) => {
   let forecast = [];
 
   while (forecast.length < 5) {
+    if (getDay(date) === 0) {
+      date = addDays(date, 1);
+    } else if (getDay(date) === 6) {
+      date = addDays(date, 2);
+    }
+
     const day = await getForecast(
       lat,
       lon,
@@ -28,12 +34,6 @@ exports.handler = async (event, context) => {
     forecast.push(day);
 
     date = addDays(date, 1);
-    if (getDay(date) === 0) {
-      date = addDays(date, 1);
-    }
-    else if (getDay(date) === 6) {
-      date = addDays(date, 2);
-    }
   }
 
   return {statusCode: 200, body: JSON.stringify(forecast)};
